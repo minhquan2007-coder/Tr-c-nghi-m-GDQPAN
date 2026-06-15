@@ -29,6 +29,25 @@ body {
 .banner { width: 500px; padding: 30px; }
 .result-box, .confirm-box { width: 450px; padding: 40px 30px; }
 
+/* CSS cho Màn hình Welcome & Nhập tên */
+#welcome-screen .banner, #name-screen .banner {
+    width: 600px;
+    padding: 50px 30px;
+    background: linear-gradient(135deg, #ffffff, #f0f4f8);
+    border: 4px solid #3498db;
+}
+#welcome-screen h1, #name-screen h1 {
+    color: #2980b9;
+    font-size: 32px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+#welcome-screen p, #name-screen p {
+    color: #34495e;
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
 @keyframes popIn {
     0% { transform: scale(0.5); opacity: 0; }
     100% { transform: scale(1); opacity: 1; }
@@ -39,16 +58,16 @@ body {
 .setting-row { display: flex; gap: 15px; margin-bottom: 15px; text-align: left; }
 .setting-group { flex: 1; }
 .setting-group label { display: block; font-weight: bold; margin-bottom: 8px; color: #34495e; font-size: 14px;}
-
 .setting-group select, .setting-group input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #bdc3c7; font-size: 15px; outline: none; box-sizing: border-box;}
+
 .result-score { font-size: 60px; font-weight: 900; color: #27ae60; margin: 15px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.1);}
 .result-detail { font-size: 18px; color: #7f8c8d; margin-bottom: 25px; font-weight: 500;}
 .start-btn {
-    background: #27ae60; color: white; border: none; padding: 14px 30px;
+    background: #27ae60; color: white; border: none; padding: 16px 30px;
     font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer;
-    width: 100%; transition: 0.3s; margin-top: 10px;
+    width: 100%; transition: 0.3s; margin-top: 10px; box-shadow: 0 4px 15px rgba(39,174,96,0.3);
 }
-.start-btn:hover { background: #219150; box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);}
+.start-btn:hover { background: #219150; box-shadow: 0 6px 20px rgba(39, 174, 96, 0.5); transform: translateY(-2px);}
 .close-btn {
     background: #7f8c8d; color: white; border: none; padding: 12px 30px;
     font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer;
@@ -56,7 +75,6 @@ body {
 }
 .close-btn:hover { background: #95a5a6; }
 .result-btn-group { display: flex; justify-content: center; gap: 15px; }
-
 .result-btn {
     background: #2980b9; color: white; border: none; padding: 12px 20px;
     font-size: 15px; font-weight: bold; border-radius: 10px; cursor: pointer;
@@ -68,7 +86,7 @@ body {
 .result-btn.danger { background: #e74c3c; }
 .result-btn.danger:hover { background: #c0392b; box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4); }
 
-#main-content, #result-modal, #confirm-modal { display: none; }
+#main-content, #result-modal, #confirm-modal, #start-banner, #stage-alert-modal, #name-screen { display: none; }
 #main-content { width: 900px; max-width: 100%; z-index: 10; position: relative;}
 .quiz-container { background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
 h1 { text-align: center; color: #2c3e50; margin-bottom: 10px; }
@@ -88,16 +106,21 @@ h1 { text-align: center; color: #2c3e50; margin-bottom: 10px; }
 .tab-btn.active { background-color: #eef4fb; color: #4A76A8; border-left: 4px solid #4A76A8; padding-left: 12px; }
 
 .stats { text-align: right; font-weight: bold; color: #e74c3c; margin-bottom: 15px; font-size: 18px; border-bottom: 2px solid #eee; padding-bottom: 10px;}
-.question-box { background: #f8f9fa; border-left: 5px solid #3498db; padding: 15px; margin-bottom: 20px; border-radius: 0 8px 8px 0; }
+.question-box { background: #f8f9fa; border-left: 5px solid #3498db; padding: 15px; margin-bottom: 20px; border-radius: 0 8px 8px 0; transition: all 0.3s;}
 .question-title { font-weight: bold; font-size: 16px; margin-bottom: 10px; color: #2c3e50; }
 .answer-label { display: block; padding: 10px; margin: 5px 0; background: #fff; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; transition: 0.2s; }
-
 .answer-label:hover { background: #fafafa; }
 .answer-label.selected { background: #d6eaf8; border-color: #3498db; }
+
+/* CSS cho đáp án đúng/sai & Vượt ải */
 .correct { background-color: #d4edda !important; color: #155724; font-weight: bold; border-color: #c3e6cb;}
 .correct::after { content: " ✓ Đúng"; float: right; }
 .wrong { background-color: #f8d7da !important; color: #721c24; text-decoration: line-through; opacity: 0.8; border-color: #f5c6cb;}
 .wrong::after { content: " ✕ Sai"; float: right; text-decoration: none; }
+.wrong-highlight { background-color: #f8d7da !important; border-color: #f5c6cb !important; color: #721c24 !important; font-weight: bold; }
+.box-unanswered { border-left: 5px solid #e74c3c !important; background-color: #fdf5f5 !important; }
+.box-wrong { border-left: 5px solid #e67e22 !important; }
+.box-correct { border-left: 5px solid #27ae60 !important; background-color: #f4fdf8 !important;}
 
 .disabled { pointer-events: none; }
 .pagination { display: flex; justify-content: center; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
@@ -106,12 +129,35 @@ h1 { text-align: center; color: #2c3e50; margin-bottom: 10px; }
 .nav-btn:disabled { background: #ccc; cursor: not-allowed; }
 #submit-test-btn { background: #e74c3c; display: none; }
 #submit-test-btn:hover { background: #c0392b; }
+#strict-submit-btn { background: #8e44ad; display: inline-block; padding: 15px 40px; font-size: 18px; font-weight: bold; box-shadow: 0 5px 15px rgba(142,68,173,0.4); }
+#strict-submit-btn:hover { background: #9b59b6; transform: translateY(-2px); }
 
-.snowflake { position: fixed; top: -50px; background-image: url('https://cdn-icons-png.flaticon.com/512/2336/2336319.png'); background-size: contain; background-repeat: no-repeat; pointer-events: none; z-index: 9999; opacity: 0.8; animation: fall linear forwards; }
+.snowflake { position: fixed; top: -50px; background-image: url('https://cdn-icons-png.flaticon.com/512/2336/2336319.png'); background-size: contain; background-repeat: no-repeat; pointer-events: none; z-index: 9999; opacity: 0.8; }
 @keyframes fall { to { transform: translate(var(--drift-x), 105vh) rotate(360deg); } }
 </style>
 </head>
 <body>
+
+<!-- MÀN HÌNH WELCOME -->
+<div class="overlay" id="welcome-screen" style="display: flex;">
+    <div class="banner">
+        <h1>CHÀO MỪNG BẠN ĐẾN VỚI HỆ THỐNG<br>LUYỆN TẬP TRẮC NGHIỆM</h1>
+        <p>Phiên bản Hỗ trợ Chế độ Vượt Ải & Ôn tập Chuyên sâu</p>
+        <button class="start-btn" onclick="openNameForm()">BẮT ĐẦU NGAY 🚀</button>
+    </div>
+</div>
+
+<!-- FORM NHẬP TÊN -->
+<div class="overlay" id="name-screen">
+    <div class="banner">
+        <h2>📝 BẠN TÊN LÀ GÌ?</h2>
+        <p>Vui lòng nhập họ tên để hệ thống lưu kết quả nhé!</p>
+        <div class="setting-row">
+            <input type="text" id="user-name-input" placeholder="Ví dụ: Nguyễn Văn A..." style="width: 100%; padding: 15px; font-size: 16px; border-radius: 8px; border: 2px solid #3498db; text-align: center; font-weight: bold;">
+        </div>
+        <button class="start-btn" onclick="submitName()">TIẾP TỤC 👉</button>
+    </div>
+</div>
 
 <div class="overlay" id="start-banner">
     <div class="banner">
@@ -120,7 +166,7 @@ h1 { text-align: center; color: #2c3e50; margin-bottom: 10px; }
             <div class="setting-group">
                 <label>Học phần / Nguồn câu hỏi:</label>
                 <select id="setting-module">
-                    <option value="qp1">Bộ 104 Câu Hỏi GDQP</option>
+                    <option value="qp1">Bộ 104 Câu Hỏi GDQP (Gốc)</option>
                     <option value="qp2">Học phần QP2 (Đang Trống)</option>
                     <option value="qp34">Học phần QP3 & 4 (Đang Trống)</option>
                     <option value="all">Trộn TẤT CẢ các HP</option>
@@ -129,11 +175,10 @@ h1 { text-align: center; color: #2c3e50; margin-bottom: 10px; }
             <div class="setting-group">
                 <label>Phạm vi / Số lượng câu hỏi:</label>
                 <select id="setting-limit" onchange="toggleCustomRange()">
+                    <option value="all" selected>Toàn bộ 104 câu (Mặc định)</option>
                     <option value="10">10 câu</option>
                     <option value="20">20 câu</option>
-                    <option value="30">30 câu</option>
                     <option value="50">50 câu</option>
-                    <option value="all" selected>Toàn bộ (Mặc định)</option>
                     <option value="custom">Tùy chọn khoảng (Theo Số thứ tự)</option>
                 </select>
                 <div id="custom-range-inputs" style="display: none; margin-top: 10px; gap: 10px; justify-content: space-between;">
@@ -153,8 +198,9 @@ h1 { text-align: center; color: #2c3e50; margin-bottom: 10px; }
             <div class="setting-group">
                 <label>Chế độ làm bài:</label>
                 <select id="setting-answer">
-                    <option value="no">Thi thử (Làm xong mới chấm)</option>
-                    <option value="yes" selected>Ôn tập (Hiện ngay đáp án)</option>
+                    <option value="strict_20" selected>🔥 THI VƯỢT ẢI (Bắt buộc sửa đúng hết mới qua màn)</option>
+                    <option value="yes">Ôn tập (Hiện ngay đáp án khi chọn)</option>
+                    <option value="no">Thi thử (Làm xong 1 lượt rồi nộp chấm)</option>
                 </select>
             </div>
         </div>
@@ -177,6 +223,16 @@ h1 { text-align: center; color: #2c3e50; margin-bottom: 10px; }
     </div>
 </div>
 
+<div class="overlay" id="stage-alert-modal">
+    <div class="confirm-box">
+        <h2 id="stage-alert-title">Thông báo</h2>
+        <div class="result-detail" id="stage-alert-msg" style="color: #34495e; white-space: pre-line;"></div>
+        <div class="result-btn-group">
+            <button class="result-btn" id="stage-alert-btn" onclick="closeStageAlert()">ĐÃ HIỂU</button>
+        </div>
+    </div>
+</div>
+
 <div class="overlay" id="result-modal">
     <div class="result-box">
         <h2>🎉 HOÀN THÀNH BÀI THI! 🎉</h2>
@@ -192,12 +248,11 @@ h1 { text-align: center; color: #2c3e50; margin-bottom: 10px; }
 <div id="main-content">
     <div class="quiz-container">
         <h1>Hệ Thống Luyện Tập Trắc Nghiệm GDQP</h1>
-        <p class="description">Thiết lập cấu hình đề thi theo ý muốn của bạn! <br></p>
-        <p class="description" style="color:red;">Lưu ý: Chỉ mang tính chất tham khảo!</p>
+        <p class="description" id="mode-desc">Thiết lập cấu hình đề thi theo ý muốn của bạn!</p>
         
         <div class="top-menu">
             <div class="dropdown">
-                <button class="dropbtn" onclick="toggleDropdown(event)">📚 Chọn Đề Thi ▼</button>
+                
                 <div class="dropdown-content" id="myDropdown">
                     <button class="tab-btn active" id="btn-qp1" onclick="switchTab('qp1')">Bộ Đề Cương Gốc</button>
                     <button class="tab-btn" id="btn-qp2" onclick="switchTab('qp2')">Học phần QP2</button>
@@ -211,14 +266,19 @@ h1 { text-align: center; color: #2c3e50; margin-bottom: 10px; }
         <div class="stats" id="global-stats">Đang tải dữ liệu...</div>
         <div id="quiz-area"></div>
         
-        <div class="pagination">
+        <div class="pagination" id="normal-pagination">
             <button class="nav-btn" id="prev-btn" onclick="changePage(-1)">❮ Trước</button>
             <span id="page-info" style="align-self: center; font-weight: bold; padding: 0 15px;">Trang 1</span>
             <button class="nav-btn" id="next-btn" onclick="changePage(1)">Sau ❯</button>
             <button class="nav-btn" id="submit-test-btn" onclick="openConfirmModal()">NỘP BÀI TỔNG</button>
         </div>
+
+        <div class="pagination" id="strict-pagination" style="display: none;">
+            <!-- Nút nộp bài vượt ải, có thể bấm kể cả khi chưa làm xong -->
+            <button class="nav-btn" id="strict-submit-btn" onclick="checkStrictSubmit()">NỘP BÀI</button>
+        </div>
         
-        <div style="text-align: center; margin-top: 15px;">
+        <div style="text-align: center; margin-top: 15px;" id="page-jump-container">
             Đến nhanh trang: <select id="page-select" onchange="goToPage(this.value)"></select>
         </div>
     </div>
@@ -226,7 +286,7 @@ h1 { text-align: center; color: #2c3e50; margin-bottom: 10px; }
 
 <script>
 // =====================================================================
-// NƠI DÁN DỮ LIỆU CÂU HỎI KÈM SỐ THỨ TỰ (ID)
+// DỮ LIỆU CÂU HỎI KÈM SỐ THỨ TỰ (ID) - FULL 104 CÂU TỪ NGUỒN CỦA BẠN
 // =====================================================================
 const quizData = {
     qp1: [
@@ -236,18 +296,18 @@ const quizData = {
         { id: 4, q: "Anh (Chị) cho biết cơ sở phương pháp luận chung nhất của việc nghiên cứu giáo dục quốc phòng - an ninh là gì?", a: { A: "Lý luận chủ nghĩa Mác - Lênin và tư tưởng Hồ Chí Minh.", B: "Lý luận chủ nghĩa Mác - Lênin và tư tưởng Hồ Chí Minh, đường lối, quan điểm của Đảng ta.", C: "Học thuyết Mác - Lênin và tư tưởng Hồ Chí Minh.", D: "Tư tưởng Mác - Lênin và Chủ tịch Hồ Chí Minh." }, true: "C" },
         { id: 5, q: "Anh (Chị) cho biết trong nghiên cứu xây dựng, phát triển nội dung giáo dục quốc phòng - an ninh với tư cách là một bộ môn khoa học cần chú ý sử dụng kết hợp mấy phương pháp nghiên cứu?", a: { A: "2", B: "3", C: "4", D: "5" }, true: "B" },
         { id: 6, q: "Anh (Chị) điền cụm từ thích hợp vào đáp án đúng? Môn học Giáo dục quốc phòng - an ninh nhằm giúp sinh viên thực hiện mục tiêu...", a: { A: "\"hoàn thiện và bồi dưỡng nhân cách, nhân cách của công dân, đáp ứng yêu cầu của sự nghiệp xây dựng và bảo vệ Tổ quốc\"", B: "\"hình thành và bồi dưỡng nhân cách, đạo đức của công dân, đáp ứng yêu cầu của sự nghiệp cách mạng\"", C: "\"hình thành và bồi dưỡng nhân cách, năng lực của công dân, đáp ứng yêu cầu của sự nghiệp đổi mới, CNH, HĐH đất nước\"", D: "\"hình thành và bồi dưỡng nhân cách, phẩm chất và năng lực của công dân, đáp ứng yêu cầu của sự nghiệp xây dựng và bảo vệ Tổ quốc\"" }, true: "D" },
-        { id: 7, q: "Anh (Chị) cho biết nội dung chương trình môn học Giáo dục quốc phòng - an ninh theo Thông tư số 05/2020/TT-BGDĐT ngày 18/03/2020 cho sinh viên gồm có mấy học phần?", a: { A: "3", B: "4", C: "5", D: "6" }, true: "B" },
+        { id: 7, q: "Anh (Chị) cho biết nội chương trình môn học Giáo dục quốc phòng - an ninh theo Thông tư số 05/2020/TT-BGDĐT ngày 18/03/2020 cho sinh viên gồm có mấy học phần?", a: { A: "3", B: "4", C: "5", D: "6" }, true: "B" },
         { id: 8, q: "Anh (Chị) cho biết chương trình Giáo dục quốc phòng - an ninh trình độ trung cấp, cao đẳng ban hành theo Thông tư nào hiện nay?", a: { A: "Thông tư số 29/2012/TT-BGDĐT ngày 12-9-2012 của Bộ trưởng Bộ Giáo dục và Đào tạo.", B: "Thông tư số 30/2012/TT-BGDĐT ngày 12-9-2012 của Bộ trưởng Bộ Giáo dục và Đào tạo.", C: "Thông tư số 31/2012/TT-BGDĐT ngày 12-9-2012 của Bộ trưởng Bộ Giáo dục và Đào tạo.", D: "Thông tư số 05/2020/TT-BGDĐT ngày 18-03-2020 của Bộ trưởng Bộ Giáo dục - Đào tạo." }, true: "D" },
         { id: 9, q: "Anh (Chị) cho biết điều kiện nào để sinh viên được dự thi kết thúc học phần?", a: { A: "Sinh viên có đủ số lần kiểm tra đạt từ 5 điểm trở lên và chấp hành nghiêm kỷ luật của Nhà trường.", B: "Sinh viên có đủ số lần kiểm tra; mỗi lần kiểm tra đạt từ 5 điểm trở lên và có đủ 80% thời gian có mặt trên lớp sẽ được dự thi kết thúc học phần lần thứ nhất.", C: "Có đủ 80% thời gian có mặt trên lớp và chấp hành nghiêm kỷ luật của Nhà trường.", D: "Mỗi lần kiểm tra đạt từ 5 điểm trở lên và chấp hành nghiêm kỷ luật của Nhà trường." }, true: "B" },
         { id: 10, q: "Anh (Chị) cho biết sau khi học xong môn học giáo dục quốc phòng- an ninh người học cần đạt được về kiến thức là gì?", a: { A: "Trình bày được những nội dung cơ bản về chiến lược \"Diễn biến hoà bình\", bạo loạn lật đổ của các thế lực thù địch đối với Việt Nam...", B: "Trình bày được một số nội dung cơ bản về dân tộc và tôn giáo; phòng chống tội phạm và tệ nạn xã hội...", C: "Trình bày được một số nội dung cơ bản về đội ngũ đơn vị cấp tiểu đội, trung đội; tác dụng, tính năng, cấu tạo...", D: "Cả 3 đáp án trên." }, true: "D" },
         { id: 11, q: "Anh (Chị) cho biết nền quốc phòng toàn dân là gì?", a: { A: "Là sức mạnh quốc phòng của đất nước được xây dựng trên nền tảng nhân lực, vật lực, tinh thần mang tính chất toàn dân, toàn diện, độc lập, tự chủ, tự cường.", B: "Là sức mạnh quốc phòng của đất nước được xây dựng trên nền tảng nhân lực, vật lực mang tính chất toàn dân, toàn diện, độc lập, tự chủ, tự cường.", C: "Là sức mạnh quốc phòng của đất nước được xây dựng trên nền tảng tinh thần mang tính chất toàn dân, toàn diện, độc lập, tự chủ, tự cường.", D: "Cả 3 đáp án trên đều sai." }, true: "A" },
-        { id: 12, q: "Anh (Chị) cho biết An ninh nhân dân là gì?", a: { A: "Là sự nghiệp của toàn dân, do nhân dân tiến hành, lực lượng an ninh nhân dân (công an nhân dân) làm nòng cốt dưới sự lãnh đạo của Đảng và sự quản lí của Nhà nước.", B: "Kết hợp phong trào toàn dân bảo vệ an ninh Tổ quốc với các biện pháp nghiệp vụ của lực lượng chuyên trách...", C: "Là bộ phận của lực lượng vũ trang Việt Nam có vai trò nòng cốt trong sự nghiệp bảo vệ an ninh quốc gia...", D: "Cả 3 đáp án trên." }, true: "D" },
+        { id: 12, q: "Anh (Chị) cho biết An ninh nhân dân là gì?", a: { A: "Là sự nghiệp của toàn dân, do nhân dân tiến hành, lực lượng an ninh nhân dân làm nòng cốt dưới sự lãnh đạo của Đảng và sự quản lí của Nhà nước.", B: "Kết hợp phong trào toàn dân bảo vệ an ninh Tổ quốc với các biện pháp nghiệp vụ của lực lượng chuyên trách...", C: "Là bộ phận của lực lượng vũ trang Việt Nam có vai trò nòng cốt trong sự nghiệp bảo vệ an ninh quốc gia...", D: "Cả 3 đáp án trên." }, true: "A" },
         { id: 13, q: "Anh (Chị) cho biết xây dựng nền quốc phòng toàn dân, an ninh nhân dân có vị trí như thế nào trong sự nghiệp xây dựng và bảo vệ Tổ quốc Việt Nam xã hội chủ nghĩa?", a: { A: "Quan trọng.", B: "Quan trọng, trung tâm.", C: "Quan trọng, then chốt.", D: "Cả 3 đáp án trên đều sai." }, true: "C" },
         { id: 14, q: "Anh (Chị) cho biết củng cố quốc phòng, an ninh, bảo vệ Tổ quốc là nhiệm vụ gì của Đảng, Nhà nước và Nhân dân ta?", a: { A: "Trọng yếu.", B: "Cơ bản, lâu dài.", C: "Trọng yếu, thường xuyên.", D: "Cả A và B đều đúng." }, true: "C" },
         { id: 15, q: "Anh (Chị) cho biết nền quốc phòng toàn dân, an ninh nhân dân của ta có những đặc trưng gì?", a: { A: "Nền quốc phòng toàn dân, an ninh nhân dân chỉ có mục đích duy nhất là tự vệ chính đáng...", B: "Đó là nền quốc phòng, an ninh vì dân, của dân và do toàn thể nhân dân tiến hành...", C: "Đó là nền quốc phòng, an ninh có sức mạnh tổng hợp do nhiều yếu tố tạo thành...", D: "Nền quốc phòng toàn dân, an ninh nhân dân chỉ có mục đích duy nhất là tự vệ chính đáng. Đó là nền quốc phòng, an ninh có sức mạnh tổng hợp do nhiều yếu tố tạo thành. Đó là nền quốc phòng, an ninh vì dân, của dân và do toàn thể nhân dân tiến hành. Nền quốc phòng, an ninh nhân dân được xây dựng toàn diện và từng bước hiện đại." }, true: "D" },
         { id: 16, q: "Anh (Chị) cho biết mục đích duy nhất của nền quốc phòng toàn dân, an ninh nhân dân là gì?", a: { A: "Tự vệ chính đáng.", B: "Đánh bại mọi kẻ thù xâm lược.", C: "Bảo vệ toàn dân.", D: "Cả 3 đáp án trên." }, true: "A" },
         { id: 17, q: "Anh (Chị) cho biết sức mạnh tổng hợp của nền quốc phòng toàn dân, an ninh nhân dân do những yếu tố nào tạo thành?", a: { A: "Yếu tố chính trị.", B: "Yếu tố kinh tế.", C: "5 yếu tố văn hoá tư tưởng, khoa học, quân sự...", D: "Cả 3 đáp án trên." }, true: "D" },
-        { id: 18, q: "Anh (Chị) cho biết xây dựng nền quốc phòng, an ninh toàn diện phải đi đôi với xây dựng nền quốc phòng, an ninh hiện đại là yêu cầu như thế nào?", a: { A: "Thường xuyên, liên tục.", B: "Tất yếu khách quan.", C: "Cơ bản, thiết thực.", D: "Mang tính chủ quan." }, true: "B" },
+        { id: 18, q: "Anh (Chị) cho biết xây dựng nền quốc phòng, an ninh toàn diện phải đi đôi với xây dựng nền quốc phòng, an hiện đại là yêu cầu như thế nào?", a: { A: "Thường xuyên, liên tục.", B: "Tất yếu khách quan.", C: "Cơ bản, thiết thực.", D: "Mang tính chủ quan." }, true: "B" },
         { id: 19, q: "Anh (Chị) cho biết mục đích xây dựng nền quốc phòng toàn dân, an ninh nhân dân vững mạnh hiện nay?", a: { A: "Tạo sức mạnh tổng hợp của đất nước cả về chính trị, quân sự, an ninh để giữ vững hòa bình, ổn định...", B: "Tạo sức mạnh tổng hợp của đất nước cả về chính trị, quân sự, an ninh, kinh tế, văn hóa xã hội...", C: "Tạo sức mạnh tổng hợp của đất nước cả về chính trị, quân sự, an ninh, kinh tế để giữ vững hòa bình...", D: "Tạo sức mạnh tổng hợp của đất nước cả về chính trị, quân sự, an ninh, kinh tế, văn hóa xã hội, khoa học, công nghệ để giữ vững hòa bình, ổn định, đẩy lùi, ngăn chặn nguy cơ chiến tranh, sẵn sàng đánh thắng chiến tranh xâm lược dưới mọi hình thức và quy mô." }, true: "D" },
         { id: 20, q: "Anh (Chị) cho biết nội dung bảo vệ vững chắc độc lập chủ quyền, thống nhất, toàn vẹn lãnh thổ là gì?", a: { A: "Bảo vệ chủ quyền mọi vùng đất, vùng trời, vùng biển, hải đảo và thềm lục địa...", B: "Bảo vệ mục tiêu, con đường đi lên chủ nghĩa xã hội.", C: "Kiên quyết đấu tranh chống lại và làm vô hiệu hóa mọi âm mưu và hành động chống phá...", D: "Cả 3 đáp án trên." }, true: "D" },
         { id: 21, q: "Anh (Chị) cho biết nội dung bảo vệ Đảng, Nhà nước, nhân dân và chế độ xã hội chủ nghĩa là gì?", a: { A: "Bảo vệ nền tảng tư tưởng chủ nghĩa Mác - Lênin, tư tưởng Hồ Chí Minh...", B: "Bảo vệ các tổ chức Đảng, chính quyền, đoàn thể chính trị xã hội...", C: "Kiên định với mục tiêu độc lập dân tộc gắn liền với chủ nghĩa xã hội...", D: "Cả 3 đáp án trên." }, true: "D" },
@@ -340,17 +400,39 @@ const quizData = {
 };
 
 // =====================================================================
-// LOGIC HOẠT ĐỘNG
+// LOGIC HOẠT ĐỘNG CHÍNH
 // =====================================================================
+let userName = "Khách";
 let isShuffle = false;
-let instantFeedback = true;
+let examMode = 'strict_20'; 
 let isTestSubmitted = false;
 let currentQuestions = [];
 let userAnswers = {};
-const questionsPerPage = 10;
+let questionsPerPage = 10;
 let currentPage = 1;
 let totalPages = 1;
 let displayModuleName = "";
+
+// State cho Strict Mode (Vượt Ải)
+let invalidAnswers = []; // Lưu id câu bị trả lời sai để bôi đỏ viền/chữ
+let unansweredIds = []; // Lưu id câu chưa làm để bôi đỏ viền
+let strictCheckedBoxes = []; // Lưu id câu ĐÃ CHECK ĐÚNG để khóa màu xanh
+
+function openNameForm() {
+    document.getElementById('welcome-screen').style.display = 'none';
+    document.getElementById('name-screen').style.display = 'flex';
+}
+
+function submitName() {
+    let nameInput = document.getElementById('user-name-input').value.trim();
+    if(nameInput === "") {
+        alert("Vui lòng nhập họ tên của bạn để tiếp tục!");
+        return;
+    }
+    userName = nameInput;
+    document.getElementById('name-screen').style.display = 'none';
+    document.getElementById('start-banner').style.display = 'flex';
+}
 
 function toggleDropdown(event) {
     event.stopPropagation();
@@ -360,21 +442,15 @@ function toggleDropdown(event) {
 function toggleCustomRange() {
     const limitType = document.getElementById('setting-limit').value;
     const customDiv = document.getElementById('custom-range-inputs');
-    if (limitType === 'custom') {
-        customDiv.style.display = 'flex';
-    } else {
-        customDiv.style.display = 'none';
-    }
+    if (limitType === 'custom') customDiv.style.display = 'flex';
+    else customDiv.style.display = 'none';
 }
 
 window.onclick = function(event) {
     if (!event.target.matches('.dropbtn')) {
         var dropdowns = document.getElementsByClassName("dropdown-content");
         for (var i = 0; i < dropdowns.length; i++) {
-            var openDropdown = dropdowns[i];
-            if (openDropdown.classList.contains('show')) {
-                openDropdown.classList.remove('show');
-            }
+            if (dropdowns[i].classList.contains('show')) dropdowns[i].classList.remove('show');
         }
     }
 }
@@ -391,18 +467,38 @@ function closeSettings() {
 
 function startApp() {
     isShuffle = document.getElementById('setting-shuffle').value === 'yes';
-    instantFeedback = document.getElementById('setting-answer').value === 'yes';
+    examMode = document.getElementById('setting-answer').value;
+    
+    if(examMode === 'strict_20') questionsPerPage = 20;
+    else questionsPerPage = 10;
+
     let moduleCode = document.getElementById('setting-module').value;
     let limit = document.getElementById('setting-limit').value;
 
+    document.getElementById('welcome-screen').style.display = 'none';
+    document.getElementById('name-screen').style.display = 'none';
     document.getElementById('start-banner').style.display = 'none';
     document.getElementById('main-content').style.display = 'block';
 
-    if(!instantFeedback) {
+    if(examMode === 'no') {
+        document.getElementById('normal-pagination').style.display = 'flex';
         document.getElementById('submit-test-btn').style.display = 'inline-block';
+        document.getElementById('strict-pagination').style.display = 'none';
+        document.getElementById('page-jump-container').style.display = 'block';
+        document.getElementById('mode-desc').innerHTML = `Xin chào <b>${userName}</b>! Chế độ Thi thử: Chọn đáp án xong bấm nộp bài để xem điểm.`;
+    } else if (examMode === 'strict_20') {
+        document.getElementById('normal-pagination').style.display = 'none';
+        document.getElementById('strict-pagination').style.display = 'flex';
+        document.getElementById('page-jump-container').style.display = 'none';
+        document.getElementById('mode-desc').innerHTML = `Xin chào <b>${userName}</b>!<br>🔥Chế độ Vượt Ải: Làm đúng toàn bộ câu hỏi!`;
     } else {
+        document.getElementById('normal-pagination').style.display = 'flex';
         document.getElementById('submit-test-btn').style.display = 'none';
+        document.getElementById('strict-pagination').style.display = 'none';
+        document.getElementById('page-jump-container').style.display = 'block';
+        document.getElementById('mode-desc').innerHTML = `Xin chào <b>${userName}</b>! Chế độ Ôn tập: Chọn đáp án sẽ hiển thị Đúng/Sai ngay.`;
     }
+
     generateTest(moduleCode, limit);
 }
 
@@ -423,53 +519,39 @@ function shuffleArray(array) {
 
 function generateTest(moduleCode, limit) {
     userAnswers = {};
+    invalidAnswers = [];
+    unansweredIds = [];
+    strictCheckedBoxes = [];
     currentPage = 1;
     isTestSubmitted = false;
 
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    if(document.getElementById(`btn-${moduleCode}`)) {
-        document.getElementById(`btn-${moduleCode}`).classList.add('active');
-    }
+    if(document.getElementById(`btn-${moduleCode}`)) document.getElementById(`btn-${moduleCode}`).classList.add('active');
 
-    if(moduleCode === 'qp1') displayModuleName = "Bộ 104 Câu Hỏi GDQP";
-    else if(moduleCode === 'qp2') displayModuleName = "QP2";
-    else if(moduleCode === 'qp34') displayModuleName = "QP3 & 4";
-    else displayModuleName = "TỔNG HỢP";
+    if(moduleCode === 'qp1') displayModuleName = "Bộ Đề Gốc 104 Câu";
+    else displayModuleName = "Khác";
 
     let sourceData = [];
-    if(moduleCode === 'all') {
-        sourceData = [...quizData.qp1, ...quizData.qp2, ...quizData.qp34];
-    } else {
-        sourceData = [...quizData[moduleCode]];
-    }
+    if(moduleCode === 'all') sourceData = [...quizData.qp1, ...quizData.qp2, ...quizData.qp34];
+    else sourceData = [...quizData[moduleCode]];
 
     if(limit === 'custom') {
         let start = parseInt(document.getElementById('custom-start').value);
         let end = parseInt(document.getElementById('custom-end').value);
-        
         if (isNaN(start)) start = 1;
         if (isNaN(end)) end = 999;
         if (start > end) { let temp = start; start = end; end = temp; }
-        
-        // Lọc theo CHÍNH XÁC mã ID (Số thứ tự in trên giấy)
         sourceData = sourceData.filter(q => q.id >= start && q.id <= end);
     }
 
-    if(isShuffle) {
-        sourceData = shuffleArray(sourceData);
-    }
+    if(isShuffle) sourceData = shuffleArray(sourceData);
 
-    if(limit !== 'all' && limit !== 'custom') {
-        currentQuestions = sourceData.slice(0, parseInt(limit));
-    } else {
-        currentQuestions = sourceData;
-    }
+    if(limit !== 'all' && limit !== 'custom') currentQuestions = sourceData.slice(0, parseInt(limit));
+    else currentQuestions = sourceData;
 
     if(currentQuestions.length === 0) {
-        document.getElementById('quiz-area').innerHTML = "<h3 style='text-align:center; color:#7f8c8d; padding: 40px;'>Chưa có câu hỏi nào trong khoảng này! Hãy thử khoảng khác.</h3>";
+        document.getElementById('quiz-area').innerHTML = "<h3 style='text-align:center; color:#7f8c8d; padding: 40px;'>Chưa có câu hỏi nào! Hãy thử lại.</h3>";
         document.getElementById('global-stats').innerText = `Học phần: ${displayModuleName} | Đã làm: 0/0`;
-        const select = document.getElementById('page-select');
-        select.innerHTML = '';
         return;
     }
 
@@ -478,8 +560,7 @@ function generateTest(moduleCode, limit) {
     select.innerHTML = '';
     for (let i = 1; i <= totalPages; i++) {
         let opt = document.createElement('option');
-        opt.value = i;
-        opt.innerHTML = `Trang ${i}`;
+        opt.value = i; opt.innerHTML = `Trang ${i}`;
         select.appendChild(opt);
     }
     updateStats();
@@ -494,6 +575,11 @@ function renderQuiz() {
     const start = (currentPage - 1) * questionsPerPage;
     const end = Math.min(start + questionsPerPage, currentQuestions.length);
 
+    if (examMode === 'strict_20') {
+        let infoText = `<h3 style='color:#e67e22; text-align:center;'>ẢI THỨ ${currentPage} / ${totalPages} (Từ câu ${start+1} đến ${end})</h3>`;
+        quizArea.innerHTML += infoText;
+    }
+
     for (let i = start; i < end; i++) {
         const item = currentQuestions[i];
         let answersHtml = "";
@@ -501,44 +587,80 @@ function renderQuiz() {
         for (let key in item.a) {
             let isChecked = userAnswers[i] === key ? "checked" : "";
             let classResult = "";
-            
+            let disableInput = "";
+
             if (userAnswers[i]) {
-                if (instantFeedback || isTestSubmitted) {
+                if (examMode === 'yes' || isTestSubmitted) {
                     if (key === item.true) classResult = "correct";
                     else if (userAnswers[i] === key) classResult = "wrong";
-                } else {
+                    disableInput = "disabled";
+                } else if (examMode === 'strict_20') {
+                    // Xử lý Strict Mode: Đã check đúng thì khoá luôn
+                    if (strictCheckedBoxes.includes(i)) {
+                        if (userAnswers[i] === key) classResult = "correct";
+                        disableInput = "disabled";
+                    } else {
+                        if (userAnswers[i] === key) {
+                            if (invalidAnswers.includes(i)) classResult = "wrong-highlight";
+                            else classResult = "selected"; 
+                        }
+                    }
+                } else if (examMode === 'no') {
                     if (userAnswers[i] === key) classResult = "selected";
                 }
             }
             
-            let disableInput = (instantFeedback && userAnswers[i]) || isTestSubmitted ? 'disabled' : '';
             answersHtml += `
             <label class="answer-label ${classResult} ${disableInput}" id="lbl-${i}-${key}">
                 <input type="radio" name="q${i}" value="${key}" ${isChecked} onclick="handleAnswer(${i}, '${key}')" style="margin-right:8px;">
                 <b>${key}.</b> ${item.a[key]}
             </label>`;
         }
+
+        // Tạo khung bôi đỏ cho câu sai hoặc chưa làm
+        let boxClasses = ["question-box"];
+        let statusTag = "";
+        if(examMode === 'strict_20') {
+            if(strictCheckedBoxes.includes(i)) {
+                boxClasses.push("box-correct");
+                statusTag = `<span style="color:#27ae60; font-size: 14px; float:right;">✔ Đã khóa đúng</span>`;
+            } else if(invalidAnswers.includes(i)) {
+                boxClasses.push("box-wrong");
+                statusTag = `<span style="color:#e74c3c; font-size: 14px; float:right;">✘ Làm sai</span>`;
+            } else if(unansweredIds.includes(i)) {
+                boxClasses.push("box-unanswered");
+                statusTag = `<span style="color:#e74c3c; font-size: 14px; float:right;">⚠ Chưa làm</span>`;
+            }
+        }
         
         quizArea.innerHTML += `
-        <div class="question-box" id="box-${i}">
-            <div class="question-title">Câu ${item.id}: ${item.q}</div>
+        <div class="${boxClasses.join(' ')}" id="box-${i}">
+            <div class="question-title">Câu ${item.id}: ${item.q} ${statusTag}</div>
             <div>${answersHtml}</div>
         </div>`;
     }
-    updateNavigation();
+    if (examMode !== 'strict_20') updateNavigation();
 }
 
 function handleAnswer(qIndex, selectedKey) {
     userAnswers[qIndex] = selectedKey;
     
-    if(!instantFeedback && !isTestSubmitted) {
-        const allLabels = document.querySelectorAll(`#box-${qIndex} .answer-label`);
-        allLabels.forEach(lbl => lbl.classList.remove('selected'));
-        document.getElementById(`lbl-${qIndex}-${selectedKey}`).classList.add('selected');
+    if(examMode === 'no' || examMode === 'strict_20') {
+        // Gỡ bỏ cảnh báo đỏ khi người dùng bấm chọn đáp án mới
+        if(examMode === 'strict_20') {
+            if (invalidAnswers.includes(qIndex)) invalidAnswers = invalidAnswers.filter(id => id !== qIndex);
+            if (unansweredIds.includes(qIndex)) unansweredIds = unansweredIds.filter(id => id !== qIndex);
+            renderQuiz(); // Dùng renderQuiz để update trạng thái Tags nhanh nhất
+        } else {
+            const allLabels = document.querySelectorAll(`#box-${qIndex} .answer-label`);
+            allLabels.forEach(lbl => lbl.classList.remove('selected'));
+            document.getElementById(`lbl-${qIndex}-${selectedKey}`).classList.add('selected');
+        }
         updateStats();
         return;
     }
 
+    // Nếu examMode == 'yes' (ôn tập)
     const item = currentQuestions[qIndex];
     const allLabels = document.querySelectorAll(`#box-${qIndex} .answer-label`);
     allLabels.forEach(lbl => lbl.classList.add('disabled'));
@@ -555,6 +677,89 @@ function handleAnswer(qIndex, selectedKey) {
     updateStats();
 }
 
+// ==============================================
+// LOGIC CHẾ ĐỘ STRICT 20: TỰ DO NỘP TRƯỚC KHI LÀM XONG
+// ==============================================
+function checkStrictSubmit() {
+    const start = (currentPage - 1) * questionsPerPage;
+    const end = Math.min(start + questionsPerPage, currentQuestions.length);
+    let totalCurrent = end - start;
+
+    // Reset list báo lỗi để quét lại từ đầu
+    invalidAnswers = []; 
+    unansweredIds = [];
+    
+    // Quét các câu
+    for (let i = start; i < end; i++) {
+        // Nếu câu này đã đúng ở lần nộp trước rồi thì bỏ qua
+        if(strictCheckedBoxes.includes(i)) continue;
+
+        if (userAnswers[i]) {
+            if (userAnswers[i] === currentQuestions[i].true) {
+                strictCheckedBoxes.push(i); // Đưa vào danh sách khóa xanh
+            } else {
+                invalidAnswers.push(i); // Làm sai
+            }
+        } else {
+            unansweredIds.push(i); // Bỏ trống
+        }
+    }
+
+    // Nếu số câu đúng = tổng số câu màn này
+    if (strictCheckedBoxes.length === totalCurrent) {
+        if (currentPage === totalPages) {
+            isTestSubmitted = true;
+            document.getElementById('score-text').innerText = "10.0 Điểm";
+            document.getElementById('score-text').style.color = "#27ae60";
+            document.getElementById('detail-text').innerText = `Tuyệt đỉnh ${userName}! Bạn đã vượt qua TẤT CẢ ${currentQuestions.length} câu hỏi.`;
+            document.getElementById('result-modal').style.display = 'flex';
+        } else {
+            showStageAlert("🎉 VƯỢT ẢI THÀNH CÔNG!", `Xuất sắc ${userName}! Bạn đã trả lời đúng toàn bộ ${totalCurrent} câu.\nHệ thống sẽ mở khóa ải tiếp theo!`, true);
+        }
+    } else {
+        // Báo lỗi cho người dùng biết cần sửa những gì
+        let msg = `Bạn hiện có:\n`;
+        if(unansweredIds.length > 0) msg += `- ${unansweredIds.length} câu CHƯA LÀM\n`;
+        if(invalidAnswers.length > 0) msg += `- ${invalidAnswers.length} câu LÀM SAI\n`;
+        msg += `\nHệ thống đã bôi đỏ các câu lỗi và khóa xanh các câu đúng.\nHãy làm tiếp và sửa các câu lỗi, sau đó nộp lại lần nữa nhé!`;
+
+        showStageAlert("❌ CHƯA THỂ QUA ẢI", msg);
+        renderQuiz(); // Áp dụng bôi đỏ lên màn hình
+    }
+}
+
+function showStageAlert(title, msg, isSuccess = false) {
+    document.getElementById('stage-alert-title').innerText = title;
+    document.getElementById('stage-alert-title').style.color = isSuccess ? "#27ae60" : "#e74c3c";
+    document.getElementById('stage-alert-msg').innerText = msg;
+    
+    let btn = document.getElementById('stage-alert-btn');
+    if (isSuccess) {
+        btn.innerText = "SANG ẢI TIẾP THEO";
+        btn.onclick = function() {
+            document.getElementById('stage-alert-modal').style.display = 'none';
+            currentPage++;
+            // Xóa lỗi và reset mảng khóa đúng khi sang màn mới
+            invalidAnswers = []; 
+            unansweredIds = [];
+            strictCheckedBoxes = [];
+            renderQuiz();
+            document.documentElement.scrollTop = 0;
+        };
+    } else {
+        btn.innerText = "ĐI SỬA LẠI";
+        btn.onclick = function() {
+            document.getElementById('stage-alert-modal').style.display = 'none';
+        };
+    }
+    document.getElementById('stage-alert-modal').style.display = 'flex';
+}
+function closeStageAlert() { document.getElementById('stage-alert-modal').style.display = 'none'; }
+
+
+// ==============================================
+// LOGIC CŨ CHO CHẾ ĐỘ THI THỬ GỘP
+// ==============================================
 function openConfirmModal() { document.getElementById('confirm-modal').style.display = 'flex'; }
 function closeConfirmModal() { document.getElementById('confirm-modal').style.display = 'none'; }
 function processSubmit() {
@@ -571,7 +776,7 @@ function processSubmit() {
     
     document.getElementById('score-text').innerText = point + " Điểm";
     document.getElementById('score-text').style.color = point >= 5 ? "#27ae60" : "#e74c3c";
-    document.getElementById('detail-text').innerText = `Trả lời đúng: ${correct} / ${currentQuestions.length} câu`;
+    document.getElementById('detail-text').innerText = `Sinh viên: ${userName} | Trả lời đúng: ${correct} / ${currentQuestions.length} câu`;
     document.getElementById('result-modal').style.display = 'flex';
     document.documentElement.scrollTop = 0;
 }
@@ -583,13 +788,17 @@ function updateStats() {
     let answered = Object.keys(userAnswers).length;
     let correct = 0;
     
-    if (instantFeedback || isTestSubmitted) {
-        for (let idx in userAnswers) {
-            if (userAnswers[idx] === currentQuestions[idx].true) correct++;
-        }
+    if (examMode === 'yes' || isTestSubmitted) {
+        for (let idx in userAnswers) if (userAnswers[idx] === currentQuestions[idx].true) correct++;
         document.getElementById('global-stats').innerText = `Học phần: ${displayModuleName} | Đã làm: ${answered}/${currentQuestions.length} | Đúng: ${correct}`;
+    } else if (examMode === 'strict_20') {
+        const start = (currentPage - 1) * questionsPerPage;
+        const end = Math.min(start + questionsPerPage, currentQuestions.length);
+        let stageAns = 0;
+        for (let i = start; i < end; i++) if (userAnswers[i]) stageAns++;
+        document.getElementById('global-stats').innerText = `Sinh viên: ${userName} | Tiến độ ải này: ${stageAns}/${end - start}`;
     } else {
-        document.getElementById('global-stats').innerText = `Học phần: ${displayModuleName} | Đã làm: ${answered}/${currentQuestions.length} | Đang ẩn đáp án`;
+        document.getElementById('global-stats').innerText = `Sinh viên: ${userName} | Đã làm: ${answered}/${currentQuestions.length}`;
     }
 }
 
@@ -603,13 +812,13 @@ function updateNavigation() {
     document.getElementById('page-select').value = currentPage;
 }
 
+// HIỆU ỨNG TUYẾT RƠI
 function createSnowflake() {
     const snowflake = document.createElement('div');
     snowflake.classList.add('snowflake');
     snowflake.style.left = Math.random() * 100 + 'vw';
     const size = Math.random() * 10 + 5 + 'px';
-    snowflake.style.width = size;
-    snowflake.style.height = size;
+    snowflake.style.width = size; snowflake.style.height = size;
     const drift = (Math.random() - 0.5) * 200 + 'px';
     snowflake.style.setProperty('--drift-x', drift);
     const duration = Math.random() * 5 + 5 + 's';
@@ -619,7 +828,6 @@ function createSnowflake() {
 }
 
 window.onload = () => {
-    document.getElementById('start-banner').style.display = 'flex';
     setInterval(createSnowflake, 300);
 };
 
