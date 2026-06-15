@@ -195,7 +195,6 @@ body.dark-mode .wrong, body.dark-mode .wrong-highlight { background-color: #c039
 </head>
 <body>
 
-<!-- MÀN HÌNH WELCOME -->
 <div class="overlay" id="welcome-screen" style="display: flex;">
     <div class="banner">
         <h1>CHÀO MỪNG BẠN ĐẾN VỚI HỆ THỐNG<br>LUYỆN TẬP TRẮC NGHIỆM</h1>
@@ -204,7 +203,6 @@ body.dark-mode .wrong, body.dark-mode .wrong-highlight { background-color: #c039
     </div>
 </div>
 
-<!-- FORM NHẬP TÊN -->
 <div class="overlay" id="name-screen">
     <div class="banner">
         <h2>BẠN TÊN LÀ GÌ?</h2>
@@ -318,9 +316,9 @@ body.dark-mode .wrong, body.dark-mode .wrong-highlight { background-color: #c039
                         <button class="tab-btn" id="btn-all" onclick="switchTab('all')">Đề Tổng Hợp</button>
                     </div>
                 </div>
-                <button class="setting-btn" onclick="openSettings()">⚙️ Cài đặt Đề</button>
+                <button class="setting-btn" onclick="openSettings()" style="width: 140px;">⚙️ Cài đặt Đề</button>
             </div>
-            <button class="setting-btn" id="dark-mode-btn" onclick="toggleDarkMode(event)" style="background-color: #2c3e50; width: 121px;">🌙Nền tối</button>
+            <button class="setting-btn" id="dark-mode-btn" onclick="toggleDarkMode(event)" style="background-color: #2c3e50; width: 140px;">🌙Nền tối</button>
         </div>
         
         <div class="stats" id="global-stats">Đang tải dữ liệu...</div>
@@ -390,7 +388,7 @@ const quizData = {
         { id: 39, q: "Anh (Chị) cho biết văn bản nào sau đây đề cập đến vấn đề giáo dục quốc phòng - an ninh?", a: { A: "Chỉ thị 12-CT/TW ngày 03/5/2007 của Bộ Chính trị và Nghị định 116/2007/NĐ-CP...", B: "Chỉ thị 12-CT/TW ngày 03/5/2007... và Nghị định 117/2007/NĐ-CP...", C: "Chỉ thị 12-CT/TW ngày 03/5/2007... và Nghị định 118/2007/NĐ-CP...", D: "Chỉ thị 12-CT/TW ngày 03/5/2007... và Nghị định 119/2007/NĐ-CP..." }, true: "A" },
         { id: 40, q: "Nội dung cơ bản, quan trọng hàng đầu của phong trào toàn dân bảo vệ an ninh Tổ quốc nhằm là gì?", a: { A: "Vận động toàn dân tham gia chương trình phòng chống tội phạm.", B: "Giáo dục cảnh giác cách mạng, truyền thống yêu nước, đấu tranh với kẻ thù.", C: "Nâng cao nhận thức cho nhân dân về âm mưu, thủ đoạn của kẻ thù.", D: "Vận động nhân dân chấp hành và tham gia giữ gìn trật tự xã hội." }, true: "B" },
         { id: 41, q: "Quan điểm của Đảng ta về quần chúng nhân dân trong bảo vệ an ninh Tổ quốc là gì?", a: { A: "Là lực lượng cách mạng đông đảo.", B: "Nền tảng của đất nước, gốc rễ của dân tộc.", C: "Động lực cho sự phát triển của xã hội.", D: "Cả 3 phương án." }, true: "D" },
-        { id: 42, q: "Theo quan điểm của Đảng ta, tầng lớp nào là động lực chính để thúc đẩy sự thay đổi và phát triển của xã hội?", a: { A: "Quần chúng nhân dân", B: "Giai cấp công nông", C: "Tầng lớp trí thức", D: "Các thành phần kinh tế" }, true: "A" },
+        { id: 42, q: "Theo quan điểm của Đảng ta, tầng lớp nào là động lực chính để thúc đẩy sự thay đổi và phát triển của xã hội?", a: { A: "Quần群众 nhân dân", B: "Giai cấp công nông", C: "Tầng lớp trí thức", D: "Các thành phần kinh tế" }, true: "A" },
         { id: 43, q: "Vai trò của quần chúng nhân dân trong bảo vệ an ninh Tổ quốc là:", a: { A: "Phát hiện, quản lý, giáo dục đối tượng phạm tội để thu hẹp tội phạm.", B: "Phát hiện khắc phục sơ hở, thiếu sót mà địch và tội phạm hay lợi dụng.", C: "Tham gia bảo vệ an ninh trật tự, giúp cơ quan chuyên trách hoàn thành tốt nhiệm vụ.", D: "Cả 3 phương án." }, true: "D" },
         { id: 44, q: "Phong trào toàn dân bảo vệ an ninh Tổ quốc hoạt trên hình thức nào?", a: { A: "Tự giác có tổ chức.", B: "Tự phát có sự tham gia của chuyên môn.", C: "Tự phát có tổ chức.", D: "Tự giác có sự tham gia của CAND." }, true: "A" },
         { id: 45, q: "Nhiệm vụ của phong trào toàn dân bảo vệ ANTQ là?", a: { A: "Phòng ngừa, phát hiện, đấu tranh tội phạm.", B: "Giáo dục quản lý đối tượng phạm tội.", C: "Giải quyết các mâu thuẫn trên địa bàn.", D: "Duy trì các phong trào của Đảng, Nhà nước." }, true: "A" },
@@ -881,11 +879,11 @@ function toggleDarkMode() {
     document.body.classList.toggle('dark-mode');
     const btn = document.getElementById('dark-mode-btn');
     if (document.body.classList.contains('dark-mode')) {
-        btn.innerHTML = "☀️Nền sáng";
+        btn.innerHTML = "☀️ Nền sáng";
         btn.style.backgroundColor = "#f1c40f"; // Nút chuyển sang màu vàng
         btn.style.color = "#333";
     } else {
-        btn.innerHTML = "🌙Nền tối";
+        btn.innerHTML = "🌙 Nền tối";
         btn.style.backgroundColor = "#2c3e50"; // Trở về màu xám đen
         btn.style.color = "#fff";
     }
